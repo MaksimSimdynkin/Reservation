@@ -1,13 +1,13 @@
-package ru.myproject.reservation;
+package ru.myproject;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ReservationApplication {
+public class ReservationImplApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ReservationApplication.class, args);
+        SpringApplication.run(ReservationImplApplication.class, args);
     }
 
 }
