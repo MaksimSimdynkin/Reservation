@@ -1,10 +1,10 @@
-package ru.myproject.reservation;
+package ru.myproject.reservationimpl;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ReservationApplicationTests {
+class ReservationImplApplicationTests {
 
     @Test
     void contextLoads() {
