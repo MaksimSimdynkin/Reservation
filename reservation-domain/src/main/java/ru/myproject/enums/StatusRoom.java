@@ -1,12 +1,13 @@
 package ru.myproject.enums;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum StatusRoom {
-    AVAILABLE("Доступна"),
-    BLOCKED("Заблокирована");
+
+    CLASSIC("Классическая"),
+    BUSINESS("Бизнес"),
+    LUXURY("Люкс");
 
     private final String description;
 }

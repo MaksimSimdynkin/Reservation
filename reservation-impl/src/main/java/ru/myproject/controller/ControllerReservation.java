@@ -11,9 +11,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.myproject.dto.RequestReservation;
+import ru.myproject.dto.RequestRoom;
 import ru.myproject.dto.ResponseReservation;
+import ru.myproject.dto.ResponseRoom;
 import ru.myproject.service.ServiceReservation;
+import ru.myproject.service.ServiceRoom;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -22,6 +26,7 @@ import java.util.UUID;
 public class ControllerReservation {
 
     private final ServiceReservation serviceReservation;
+    private final ServiceRoom serviceRoom;
 
     @GetMapping("/id")
     public ResponseEntity<ResponseReservation> getReservationId(@PathVariable("id") UUID id){
@@ -46,6 +51,11 @@ public class ControllerReservation {
     @DeleteMapping("/id")
     public ResponseEntity<Void> deleteReservation(@PathVariable("id") UUID id){
         return ResponseEntity.ok(serviceReservation.deleteReservation(id));
+    }
+
+    @GetMapping("/room")
+    public ResponseEntity<List<ResponseRoom>> allRoom(){
+        return ResponseEntity.ok(serviceRoom.getAllRooms());
     }
 
 }
