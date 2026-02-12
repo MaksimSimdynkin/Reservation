@@ -28,7 +28,7 @@ public class ControllerReservation {
     private final ServiceReservation serviceReservation;
     private final ServiceRoom serviceRoom;
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<ResponseReservation> getReservationId(@PathVariable("id") UUID id){
         return ResponseEntity.ok(serviceReservation.getByReservation(id));
     }
@@ -43,12 +43,12 @@ public class ControllerReservation {
         return ResponseEntity.status(HttpStatus.CREATED).body(serviceReservation.createReservation(requestReservation));
     }
 
-    @PostMapping("/id")
+    @PostMapping("/{id}")
     public ResponseEntity<ResponseReservation> updateReservation(@PathVariable("id") UUID id, @RequestBody RequestReservation requestReservation){
         return ResponseEntity.ok(serviceReservation.updateReservation(id, requestReservation));
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteReservation(@PathVariable("id") UUID id){
         return ResponseEntity.ok(serviceReservation.deleteReservation(id));
     }
@@ -56,6 +56,11 @@ public class ControllerReservation {
     @GetMapping("/room")
     public ResponseEntity<List<ResponseRoom>> allRoom(){
         return ResponseEntity.ok(serviceRoom.getAllRooms());
+    }
+
+    @GetMapping("/room/{id}")
+    public ResponseEntity<ResponseRoom> getRoomId(@PathVariable UUID id){
+        return ResponseEntity.ok(serviceRoom.getRoomId(id));
     }
 
 }

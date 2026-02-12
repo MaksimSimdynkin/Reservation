@@ -14,4 +14,6 @@ public interface ServiceRoom {
     ResponseRoom updateRoom(UUID id, RequestRoom requestRoom);
 
     List<ResponseRoom> getAllRooms();
+
+    ResponseRoom getRoomId(UUID id);
 }

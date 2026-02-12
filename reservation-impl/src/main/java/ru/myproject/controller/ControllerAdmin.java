@@ -1,7 +1,10 @@
 package ru.myproject.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,18 +20,21 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/abs/v1/admin")
+@RequestMapping("/abs/v1/admin/rooms")
+@Validated
 public class ControllerAdmin {
 
     private final ServiceRoom serviceRoom;
 
     @PostMapping("/addRooms")
-    public ResponseEntity<ResponseRoom> addRoom(@RequestBody RequestRoom requestRoom){
-        return ResponseEntity.ok(serviceRoom.createRooms(requestRoom));
+    public ResponseEntity<ResponseRoom> addRoom(@RequestBody @Valid RequestRoom requestRoom){
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(serviceRoom.createRooms(requestRoom));
     }
 
-    @PutMapping("/addRooms/{id}")
-    public ResponseEntity<ResponseRoom> updateRoom(@PathVariable("id") UUID id, @RequestBody RequestRoom requestRoom){
+    @PutMapping("/updateRoom/{id}")
+    public ResponseEntity<ResponseRoom> updateRoom(@PathVariable("id") UUID id,
+                                                   @RequestBody @Valid RequestRoom requestRoom){
         return ResponseEntity.ok(serviceRoom.updateRoom(id, requestRoom));
     }
 }
