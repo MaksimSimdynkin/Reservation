@@ -1,14 +1,17 @@
 package ru.myproject.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import ru.myproject.Room;
-import ru.myproject.dto.RequestRoom;
+import org.springframework.stereotype.Repository;
+import ru.myproject.entity.Room;
 
+import java.util.Optional;
 import java.util.UUID;
 
+@Repository
 public interface RoomRepository extends JpaRepository<Room, UUID> {
+    boolean existsByNumber(int number);
 
-    @Query
-    Void addRooms(Room room);
+    Optional<Room> getByNumber(int number);
+
+
 }

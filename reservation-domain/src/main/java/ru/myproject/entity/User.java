@@ -1,4 +1,4 @@
-package ru.myproject;
+package ru.myproject.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,10 +34,10 @@ public class User {
     private String lastName;
 
     @Column(name = "phone")
-    private Integer phone;
+    private int phone;
 
     @Column(name = "age")
-    private Integer age;
+    private int age;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Reservation> reservations;

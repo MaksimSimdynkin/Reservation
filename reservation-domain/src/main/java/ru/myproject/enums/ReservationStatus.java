@@ -3,7 +3,7 @@ package ru.myproject.enums;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public enum Status {
+public enum ReservationStatus {
     PENDING("В обработке"),
     CREATED("Создана"),
     CANCELLED("Отменена");
