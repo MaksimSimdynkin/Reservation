@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.myproject.dto.RequestRoom;
 import ru.myproject.dto.ResponseRoom;
+import ru.myproject.dto.ResponseUsers;
 import ru.myproject.service.ServiceRoom;
 
 import java.util.UUID;
@@ -36,5 +36,10 @@ public class ControllerAdmin {
     public ResponseEntity<ResponseRoom> updateRoom(@PathVariable("id") UUID id,
                                                    @RequestBody @Valid RequestRoom requestRoom){
         return ResponseEntity.ok(serviceRoom.updateRoom(id, requestRoom));
+    }
+
+    @PostMapping("/createUsers")
+    public ResponseEntity<ResponseUsers> createUsers(@RequestBody RequestBody responseUsers){
+        return null;
     }
 }
