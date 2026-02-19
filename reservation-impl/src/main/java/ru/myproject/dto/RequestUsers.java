@@ -6,7 +6,7 @@ import lombok.Builder;
 public record RequestUsers(
         String firstName,
         String lastName,
-        int phone,
+        String phone,
         int age
 ) {
 }

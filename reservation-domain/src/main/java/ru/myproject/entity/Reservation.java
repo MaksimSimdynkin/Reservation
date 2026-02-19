@@ -11,21 +11,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Fetch;
 import ru.myproject.enums.ReservationStatus;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -38,14 +34,15 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @ToString.Include
-    private UUID id;
+    @Column(name = "reservation_id")
+    private UUID reservationId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false, updatable = false)
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "room_id", nullable = false, updatable = false)
     private Room room;
 
     @Column(name = "first_date", nullable = false)
@@ -60,6 +57,21 @@ public class Reservation {
     @Column(name = "status", nullable = false)
     @ToString.Include
     private ReservationStatus status;
+
+    @Version
+    @Column(name = "version", nullable = false)
+    private long version;
+
+    @ToString.Include(name = "userId")
+    private UUID userIdToString(){
+        return user!= null ? user.getUserId() : null;
+    }
+
+    @ToString.Include(name = "roomId")
+    private UUID roomIdToString(){
+        return room != null ? room.getRoomId() : null;
+    }
+
 
     @Builder
     public Reservation(User user, Room room, LocalDateTime firstDate, LocalDateTime lastDate, ReservationStatus status) {
@@ -78,7 +90,7 @@ public class Reservation {
         }
         Reservation reservation = (Reservation) o;
 
-        return id != null && id.equals(reservation.id);
+        return reservationId != null && reservationId.equals(reservation.reservationId);
     }
 
     @Override

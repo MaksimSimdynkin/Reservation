@@ -8,8 +8,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,7 +18,7 @@ import lombok.ToString;
 import org.hibernate.Hibernate;
 
 import java.util.List;
-import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -25,8 +26,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString(onlyExplicitlyIncluded = true)
-@AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
 
     @Id
@@ -45,14 +45,23 @@ public class User {
 
     @Column(name = "phone", nullable = false)
     @ToString.Include
-    private int phone;
+    private String phone;
 
     @Column(name = "age", nullable = false)
     @ToString.Include
     private int age;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<Reservation> reservations;
+    @ToString.Exclude
+    private Set<Reservation> reservations;
+
+    @Builder
+    public User(UUID userId, String firstName, String lastName, String phone, int age, List<Reservation> reservations) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+        this.age = age;
+    }
 
     @Override
     public final boolean equals(Object o) {

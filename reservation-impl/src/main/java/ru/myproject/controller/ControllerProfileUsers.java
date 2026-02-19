@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.myproject.dto.RequestUsers;
@@ -23,17 +24,17 @@ public class ControllerProfileUsers {
 
     @GetMapping()
     public ResponseEntity<ResponseUsers> getProfile(){
-        return serviceUsers.getProfile;
+        return ResponseEntity.ok(serviceUsers.getProfile());
     }
 
     @PostMapping("/updateProfile")
-    public ResponseEntity<List<ResponseUsers>> updateProfileUsers(){
-        return serviceUsers.updateProfile;
+    public ResponseEntity<ResponseUsers> updateProfileUsers(@RequestBody RequestUsers requestUsers){
+        return ResponseEntity.ok(serviceUsers.updateProfile(requestUsers));
     }
 
     @DeleteMapping("/delete")
     public Void deleteProfile(){
-        return null;
+        return serviceUsers.deleteProfile();
     }
 
 }
