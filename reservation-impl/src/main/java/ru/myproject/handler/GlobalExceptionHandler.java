@@ -1,6 +1,7 @@
 package ru.myproject.handler;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import ru.myproject.dto.ErrorDto;
 import ru.myproject.exeption.ConflictAlreadyRoom;
+import ru.myproject.exeption.ConflictRegisterException;
 import ru.myproject.exeption.TransactionNotFoundExeption;
 
 import java.util.Objects;
@@ -65,5 +67,15 @@ public class GlobalExceptionHandler {
                 .message("Неверный формат UUID.")
                 .build(),
                 HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ConflictRegisterException.class)
+    public ResponseEntity<ErrorDto> conflictRegisterException(ConflictRegisterException ex){
+        return new ResponseEntity<>(ErrorDto.builder()
+                .status(String.valueOf(HttpStatus.CONFLICT))
+                .code(HttpStatus.CONFLICT.value())
+                .message(ex.getMessage())
+                .build(),
+                HttpStatus.CONFLICT);
     }
 }

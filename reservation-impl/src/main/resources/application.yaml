@@ -5,5 +5,8 @@ spring:
     password: postgres
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: validate
     open-in-view: false
+
+jwt:
+  secret: 6429c73c0227a3dd2bd3690f00e2e2875a678b3edbcfefde85f0a0bbbcb58f6f

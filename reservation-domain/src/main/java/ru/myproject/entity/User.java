@@ -3,13 +3,13 @@ package ru.myproject.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,9 +17,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
 
-import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Table(name = "users")
@@ -29,11 +27,15 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
 
+
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "user_id")
-    @ToString.Include
-    private UUID userId;
+    private Long id;
+
+    @MapsId
+    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false, updatable = false)
+    private AppUsers appUsers;
 
     @Column(name = "first_name", nullable = false)
     @ToString.Include
@@ -55,8 +57,15 @@ public class User {
     @ToString.Exclude
     private Set<Reservation> reservations;
 
+    public void setAppUsers(AppUsers appUsers){
+        this.appUsers = appUsers;
+        if (appUsers != null && appUsers.getProfile() != this){
+            appUsers.setProfile(this);
+        }
+    }
+
     @Builder
-    public User(UUID userId, String firstName, String lastName, String phone, int age, List<Reservation> reservations) {
+    public User(String firstName, String lastName, String phone, int age) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
@@ -73,7 +82,7 @@ public class User {
         }
 
         User user =(User) o;
-        return userId != null && userId.equals(user.userId);
+        return id != null && id.equals(user.id);
     }
 
     @Override

@@ -62,9 +62,9 @@ public class Reservation {
     @Column(name = "version", nullable = false)
     private long version;
 
-    @ToString.Include(name = "userId")
-    private UUID userIdToString(){
-        return user!= null ? user.getUserId() : null;
+    @ToString.Include(name = "appUsers")
+    private Long userIdToString(){
+        return user!= null ? user.getId() : null;
     }
 
     @ToString.Include(name = "roomId")
