@@ -26,7 +26,7 @@ public class SecurityFilterConfig {
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/abs/v1/auth/**").permitAll()
-//                        .requestMatchers("/abs/v1/admin/rooms/**").hasRole("ADMIN")
+                        .requestMatchers("/abs/v1/admin/rooms/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

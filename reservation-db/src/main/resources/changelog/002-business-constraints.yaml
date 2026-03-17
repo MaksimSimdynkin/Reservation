@@ -1,0 +1,76 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-01-room-number-unique
+      author: codex
+      changes:
+        - addUniqueConstraint:
+            tableName: room
+            columnNames: number
+            constraintName: uk_room_number
+
+  - changeSet:
+      id: 002-02-reservation-indexes
+      author: codex
+      changes:
+        - createIndex:
+            tableName: reservation
+            indexName: idx_reservation_user_id
+            columns:
+              - column:
+                  name: user_id
+
+        - createIndex:
+            tableName: reservation
+            indexName: idx_reservation_room_dates
+            columns:
+              - column:
+                  name: room_id
+              - column:
+                  name: first_date
+              - column:
+                  name: last_date
+
+  - changeSet:
+      id: 002-03-check-constraints
+      author: codex
+      dbms: postgresql
+      changes:
+        - sql:
+            splitStatements: true
+            stripComments: true
+            sql: |
+              ALTER TABLE app_users
+                  ADD CONSTRAINT chk_app_users_role
+                  CHECK (role IN ('DEFAULT', 'ADMIN'));
+
+              ALTER TABLE users
+                  ADD CONSTRAINT chk_users_age
+                  CHECK (age > 0 AND age <= 100);
+
+              ALTER TABLE room
+                  ADD CONSTRAINT chk_room_number
+                  CHECK (number > 0 AND number <= 2000);
+
+              ALTER TABLE room
+                  ADD CONSTRAINT chk_room_floor
+                  CHECK (floor > 0 AND floor <= 50);
+
+              ALTER TABLE room
+                  ADD CONSTRAINT chk_room_count_rooms
+                  CHECK (count_rooms > 0 AND count_rooms <= 5);
+
+              ALTER TABLE room
+                  ADD CONSTRAINT chk_room_count
+                  CHECK (count > 0);
+
+              ALTER TABLE room
+                  ADD CONSTRAINT chk_room_status
+                  CHECK (status_room IN ('CLASSIC', 'BUSINESS', 'LUXURY'));
+
+              ALTER TABLE reservation
+                  ADD CONSTRAINT chk_reservation_status
+                  CHECK (status IN ('PENDING', 'CREATED', 'CANCELLED'));
+
+              ALTER TABLE reservation
+                  ADD CONSTRAINT chk_reservation_dates
+                  CHECK (first_date < last_date);

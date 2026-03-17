@@ -1,9 +1,11 @@
 package ru.myproject.service.impl;
 
+import org.springframework.stereotype.Service;
 import ru.myproject.dto.RequestUsers;
 import ru.myproject.dto.ResponseUsers;
 import ru.myproject.service.ServiceUsers;
 
+@Service
 public class ServiceUsersImpl implements ServiceUsers {
     @Override
     public ResponseUsers getProfile() {

@@ -1,0 +1,183 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-01-create-app-users
+      author: codex
+      changes:
+        - createTable:
+            tableName: app_users
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_app_users
+                    nullable: false
+              - column:
+                  name: password
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: role
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 001-02-create-users
+      author: codex
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_users
+                    nullable: false
+              - column:
+                  name: first_name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: phone
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: age
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 001-03-create-room
+      author: codex
+      changes:
+        - createTable:
+            tableName: room
+            columns:
+              - column:
+                  name: room_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_room
+                    nullable: false
+              - column:
+                  name: number
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+              - column:
+                  name: floor
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+              - column:
+                  name: count_rooms
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+              - column:
+                  name: count
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status_room
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 001-04-create-reservation
+      author: codex
+      changes:
+        - createTable:
+            tableName: reservation
+            columns:
+              - column:
+                  name: reservation_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_reservation
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: room_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: first_date
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_date
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: version
+                  type: BIGINT
+                  defaultValueNumeric: 0
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 001-05-base-constraints
+      author: codex
+      changes:
+        - addUniqueConstraint:
+            tableName: app_users
+            columnNames: email
+            constraintName: uk_app_users_email
+
+        - addForeignKeyConstraint:
+            baseTableName: users
+            baseColumnNames: user_id
+            referencedTableName: app_users
+            referencedColumnNames: id
+            constraintName: fk_users_app_users
+            onDelete: CASCADE
+
+        - addForeignKeyConstraint:
+            baseTableName: reservation
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: user_id
+            constraintName: fk_reservation_user
+
+        - addForeignKeyConstraint:
+            baseTableName: reservation
+            baseColumnNames: room_id
+            referencedTableName: room
+            referencedColumnNames: room_id
+            constraintName: fk_reservation_room

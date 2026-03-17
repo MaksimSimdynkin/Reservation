@@ -3,6 +3,8 @@ spring:
     url: jdbc:postgresql://localhost:5432/reservation
     username: postgres
     password: postgres
+  liquibase:
+    change-log: classpath:changelog/db.changelog-master.yaml
   jpa:
     hibernate:
       ddl-auto: validate

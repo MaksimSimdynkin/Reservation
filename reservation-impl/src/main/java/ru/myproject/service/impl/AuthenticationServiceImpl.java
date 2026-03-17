@@ -30,6 +30,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthUtil authUtil;
     private final RepositoryAppUsers repositoryAppUsers;
     private final PasswordEncoder passwordEncoder;
+    private final CustomerUserDetailsService customerUserDetailsService;
 
 
     @Override
@@ -70,7 +71,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public AuthenticationResponse authentication(AuthenticationRequest request) {
             Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.email(), request.password()));
-            AppUsers users = (AppUsers) authenticate.getPrincipal(); // нужно ли проводить проверку есть пользователь или нет ??
+            AppUsers users = (AppUsers) authenticate.getPrincipal();
 
             String jwt = authUtil.generateAccessToken(users);
 

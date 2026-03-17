@@ -15,7 +15,7 @@ public class CustomerUserDetailsService implements UserDetailsService {
     private final RepositoryAppUsers repositoryAppUsers;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return repositoryAppUsers.findByEmail(username).orElseThrow(() -> new TransactionNotFoundExeption("Такого пользователя нет"));
+    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+        return repositoryAppUsers.findByEmail(userName).orElseThrow(() -> new TransactionNotFoundExeption("Такого пользователя нет"));
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 import ru.myproject.entity.AppUsers;
 import ru.myproject.repository.RepositoryAppUsers;
+import ru.myproject.service.impl.CustomerUserDetailsService;
 
 import java.io.IOException;
 
@@ -21,6 +22,7 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final AuthUtil authUtil;
     private final RepositoryAppUsers repository;
+    private final CustomerUserDetailsService customerUserDetailsService;
 
 
     @Override
@@ -39,7 +41,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         user = authUtil.getUserNameFromToken(token);
 
         if (user != null && SecurityContextHolder.getContext().getAuthentication() == null){
-            AppUsers users = repository.findByEmail(user).orElseThrow();
+            AppUsers users = (AppUsers) customerUserDetailsService.loadUserByUsername(user);
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                     new UsernamePasswordAuthenticationToken(users, null, users.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);

@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - include:
+      file: 001-init-schema.yaml
+      relativeToChangelogFile: true
+
+  - include:
+      file: 002-business-constraints.yaml
+      relativeToChangelogFile: true

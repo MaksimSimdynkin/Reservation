@@ -20,7 +20,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ControllerProfileUsers {
 
-    private ServiceUsers serviceUsers;
+    private final ServiceUsers serviceUsers;
 
     @GetMapping()
     public ResponseEntity<ResponseUsers> getProfile(){
