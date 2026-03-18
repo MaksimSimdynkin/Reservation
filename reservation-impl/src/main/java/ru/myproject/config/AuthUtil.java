@@ -3,7 +3,7 @@ package ru.myproject.config;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -14,14 +14,14 @@ import java.util.HashMap;
 import java.util.function.Function;
 
 @Service
+@RequiredArgsConstructor
 public class AuthUtil {
 
-    @Value(value = "${jwt.secret}")
-    private String jwtSecretKey;
+    private final JwtProperties jwtProperties;
 
 
-    public SecretKey getSecretKey(){
-        return Keys.hmacShaKeyFor(jwtSecretKey.getBytes(StandardCharsets.UTF_8));
+    private SecretKey getSecretKey(){
+        return Keys.hmacShaKeyFor(jwtProperties.getSecret().getBytes(StandardCharsets.UTF_8));
     }
 
     public String generateAccessToken(UserDetails userDetails){
@@ -33,7 +33,7 @@ public class AuthUtil {
                 .claims(claims)
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 10))
+                .expiration(new Date(System.currentTimeMillis() + jwtProperties.getExpiration().toMillis()))
                 .signWith(getSecretKey())
                 .compact();
     }
